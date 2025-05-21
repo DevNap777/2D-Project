@@ -38,7 +38,7 @@ public class PlayerController : MonoBehaviour
     {
         PlayerMove();
 
-        if (isJumped)
+        if (isJumped && isGrounded)
         {
             PlayerJump();
         }
@@ -46,7 +46,7 @@ public class PlayerController : MonoBehaviour
 
     private void PlayerInput()
     {
-        float x = Input.GetAxisRaw("Horizontal");
+        inputX = Input.GetAxis("Horizontal");
     }
 
     private void PlayerMove()
@@ -58,5 +58,15 @@ public class PlayerController : MonoBehaviour
     {
         rigid.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
         isJumped = false;
+        isGrounded = false;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            Debug.Log("Ãæµ¹");
+            isGrounded = true;
+        }
     }
 }
